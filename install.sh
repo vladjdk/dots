@@ -12,24 +12,26 @@ xcode-select -p &>/dev/null || xcode-select --install
 command -v brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Dotfiles
-cp "$DOTS_DIR/dots/.zshrc" ~
-cp "$DOTS_DIR/dev-session.sh" ~
-cp "$DOTS_DIR/.tmux.conf" ~
+cp -f "$DOTS_DIR/dots/.zshrc" ~ 2>/dev/null || true
+cp -f "$DOTS_DIR/dev-session.sh" ~ 2>/dev/null || true
+cp -f "$DOTS_DIR/.tmux.conf" ~ 2>/dev/null || true
 
 # Fonts
-cp "$DOTS_DIR/packages"/CodeNewRoman* ~/Library/Fonts/
+mkdir -p ~/Library/Fonts
+cp -f "$DOTS_DIR/packages"/CodeNewRoman* ~/Library/Fonts/ 2>/dev/null || true
 
 # Neovim config
+mkdir -p ~/.config
 rm -rf ~/.config/nvim
 cp -r "$DOTS_DIR/nvim" ~/.config/nvim
 
 # Update brew and all existing packages
-brew update
-brew upgrade
+brew update || true
+brew upgrade || true
 
 install_or_upgrade() {
   if brew list "$1" &>/dev/null; then
-    brew upgrade "$1"
+    brew upgrade "$1" 2>/dev/null || true
   else
     brew install "$1"
   fi
@@ -37,9 +39,9 @@ install_or_upgrade() {
 
 install_or_upgrade_cask() {
   if brew list --cask "$1" &>/dev/null; then
-    brew upgrade --cask "$1"
+    brew upgrade --cask "$1" 2>/dev/null || true
   else
-    brew install --cask "$1"
+    brew install --cask "$1" 2>/dev/null || true
   fi
 }
 
