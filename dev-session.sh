@@ -18,9 +18,12 @@ tmux split-window -v -t $SESSION:1.1
 # Start claude in top-left
 tmux send-keys -t $SESSION:1.1 'claude' Enter
 
-# Window 2: Neovim
+# Window 2: Neovim with two terminal panes at bottom (20% height, split in middle)
 tmux new-window -t $SESSION -n editor
 tmux send-keys -t $SESSION:2 'nvim' Enter
+tmux split-window -v -p 20 -t $SESSION:2.1
+tmux split-window -h -t $SESSION:2.2
+tmux select-pane -t $SESSION:2.1
 
 # Window 3: 4 terminals (one in each corner)
 tmux new-window -t $SESSION -n terminals
