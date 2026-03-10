@@ -22,11 +22,12 @@ tmux send-keys -t $SESSION:1.1 'claude' Enter
 tmux new-window -t $SESSION -n editor
 tmux send-keys -t $SESSION:2 'nvim' Enter
 
-# Window 3: 4 terminals
+# Window 3: 4 terminals (one in each corner)
 tmux new-window -t $SESSION -n terminals
 tmux split-window -h -t $SESSION:3
 tmux split-window -v -t $SESSION:3.1
 tmux split-window -v -t $SESSION:3.2
+tmux select-layout -t $SESSION:3 tiled
 
 # Start on window 1, top-left pane
 tmux select-window -t $SESSION:1
